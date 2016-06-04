@@ -37,6 +37,6 @@
         android:id="@+id/playPause"
         android:layout_below="@+id/timer"
         android:layout_centerHorizontal="true"
-        android:src="@android:drawable/ic_media_play"/>
+        android:background="@android:drawable/ic_media_play"/>
 
 </RelativeLayout>
