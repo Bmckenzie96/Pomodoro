@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +13,14 @@ import android.widget.TextView;
 
 import com.a1996.ben.pomodoro.R;
 
+import Utils.CountdownTimer;
+
 /**
  * Created by Ben on 6/4/2016.
  */
 public class TimerFragment extends Fragment implements View.OnClickListener {
-    CountDownTimer mCountDownTimer;
     Button mFocus;
+    Button mBreak;
     TextView mTimeView;
     @Nullable
     @Override
@@ -25,6 +28,8 @@ public class TimerFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.timer_fragment, container, false);
         mFocus = (Button) view.findViewById(R.id.focusButton);
         mFocus.setOnClickListener(this);
+        mBreak = (Button) view.findViewById(R.id.breakButton);
+        mBreak.setOnClickListener(this);
         mTimeView = (TextView) view.findViewById(R.id.timer);
         return view;
     }
@@ -33,25 +38,12 @@ public class TimerFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.focusButton:
-                startTime(1500, 1000);
+                CountdownTimer.getInstance().startTime(1500, 1000, mTimeView);
+                break;
+            case R.id.breakButton:
+                CountdownTimer.getInstance().startTime(300, 1000, mTimeView);
                 break;
         }
     }
 
-    public void startTime(long time, long delay) {
-        if(mCountDownTimer != null) {
-            mCountDownTimer.cancel();
-        }
-        mCountDownTimer = new CountDownTimer(time * 1000 + 100, delay) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                mTimeView.setText(millisUntilFinished/1000 + "");
-            }
-
-            @Override
-            public void onFinish() {
-                mTimeView.setText("0");
-            }
-        }.start();
-    }
 }
