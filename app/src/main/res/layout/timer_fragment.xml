@@ -21,4 +21,22 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start Break"
+        android:id="@+id/breakButton"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/playPause"
+        android:layout_below="@+id/timer"
+        android:layout_centerHorizontal="true"
+        android:src="@android:drawable/ic_media_play"/>
+
 </RelativeLayout>
