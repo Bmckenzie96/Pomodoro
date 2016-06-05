@@ -13,12 +13,15 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.a1996.ben.pomodoro.R;
 
 import Utils.CountdownTimer;
 
-public class Home extends AppCompatActivity {
+public class Home extends AppCompatActivity implements TimerFragment.FragmentCreated {
+
+    TimerFragment mTimerFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,12 +29,11 @@ public class Home extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        TimerFragment timerFragment = new TimerFragment();
+        mTimerFragment = new TimerFragment();
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.placeHolder, timerFragment);
+        fragmentTransaction.add(R.id.placeHolder, mTimerFragment);
         fragmentTransaction.commit();
-        Log.i("start seconds", CountdownTimer.getInstance().currentSeconds + "");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -63,5 +65,16 @@ public class Home extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onFragmentCreated(View v) {
+        Toast.makeText(this, "made Invisible",Toast.LENGTH_SHORT).show();
+        v.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onStartTimer(View v) {
+        v.setVisibility(View.VISIBLE);
     }
 }

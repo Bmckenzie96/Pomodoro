@@ -21,14 +21,20 @@ import Utils.CountdownTimer;
  * Created by Ben on 6/4/2016.
  */
 public class TimerFragment extends Fragment implements View.OnClickListener {
+    public interface FragmentCreated {
+        void onFragmentCreated(View v);
+        void onStartTimer(View v);
+    }
     Button mFocus;
     Button mBreak;
     ImageButton mPlayPause;
     TextView mTimeView;
+    FragmentCreated mListener;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.timer_fragment, container, false);
+        mListener = (FragmentCreated) getActivity();
         mFocus = (Button) view.findViewById(R.id.focusButton);
         mFocus.setOnClickListener(this);
         mBreak = (Button) view.findViewById(R.id.breakButton);
@@ -36,6 +42,7 @@ public class TimerFragment extends Fragment implements View.OnClickListener {
         mTimeView = (TextView) view.findViewById(R.id.timer);
         mPlayPause = (ImageButton) view.findViewById(R.id.playPause);
         mPlayPause.setOnClickListener(this);
+        mListener.onFragmentCreated(mPlayPause);
         return view;
     }
 
@@ -45,10 +52,12 @@ public class TimerFragment extends Fragment implements View.OnClickListener {
             case R.id.focusButton:
                 CountdownTimer.getInstance().startTime(1500, 1000, mTimeView);
                 mPlayPause.setBackgroundResource(android.R.drawable.ic_media_pause);
+                mListener.onStartTimer(mPlayPause);
                 break;
             case R.id.breakButton:
                 CountdownTimer.getInstance().startTime(300, 1000, mTimeView);
                 mPlayPause.setBackgroundResource(android.R.drawable.ic_media_pause);
+                mListener.onStartTimer(mPlayPause);
                 break;
             case R.id.playPause:
                 if (CountdownTimer.getInstance().isCounting) {
