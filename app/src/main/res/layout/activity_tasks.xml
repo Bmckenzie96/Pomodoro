@@ -6,8 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".View.Home">
+    tools:context="com.a1996.ben.pomodoro.View.Tasks">
 
-    <include layout="@layout/content_home"/>
+    <include layout="@layout/content_tasks"/>
+
 
 </android.support.design.widget.CoordinatorLayout>
