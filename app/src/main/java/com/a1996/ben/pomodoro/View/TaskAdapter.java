@@ -62,6 +62,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             ImageButton viewTask = (ImageButton) view.findViewById(R.id.viewTask);
             ImageButton editTask = (ImageButton) view.findViewById(R.id.taskEdit);
             ImageButton deleteTask =(ImageButton) view.findViewById(R.id.taskDelete);
+            view.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    mTaskAdapterInterface.longItemClick(mIndex);
+                    return true;
+                }
+            });
             viewTask.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

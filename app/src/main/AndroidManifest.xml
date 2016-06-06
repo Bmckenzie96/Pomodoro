@@ -27,6 +27,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.a1996.ben.pomodoro.View.Home"/>
         </activity>
+        <activity
+            android:name=".View.AddTask"
+            android:label="@string/title_activity_add_task"
+            android:parentActivityName=".View.Tasks"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.a1996.ben.pomodoro.View.Tasks"/>
+        </activity>
     </application>
 
 </manifest>

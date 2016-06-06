@@ -2,6 +2,7 @@ package com.a1996.ben.pomodoro.View;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -23,17 +24,19 @@ public class Tasks extends AppCompatActivity implements TaskListFragment.TaskAda
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tasks);
-        Task task = new Task("test", "content");
-        TaskArray.addTask(task);
-        for (int i = 0; i < 5; i++) {
-            Task task2 = new Task("title", "content");
-            TaskArray.addTask(task2);
-        }
         Button backButton = (Button) findViewById(R.id.backButton);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+        Button addButton = (Button) findViewById(R.id.addButton);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Tasks.this, AddTask.class);
+                startActivity(intent);
             }
         });
         TaskListFragment taskListFragment = new TaskListFragment();
@@ -46,5 +49,10 @@ public class Tasks extends AppCompatActivity implements TaskListFragment.TaskAda
     @Override
     public void goToContent(int position) {
         Toast.makeText(Tasks.this, "item " + position  + " clicked",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void longItemClick(int position) {
+        Toast.makeText(Tasks.this, "item " + position  + "long clicked",Toast.LENGTH_SHORT).show();
     }
 }
