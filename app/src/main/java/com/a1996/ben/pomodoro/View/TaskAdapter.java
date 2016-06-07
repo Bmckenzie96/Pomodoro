@@ -75,6 +75,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                     mTaskAdapterInterface.goToContent(mIndex);
                 }
             });
+            deleteTask.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mTaskAdapterInterface.delete(mIndex, TaskAdapter.this);
+                }
+            });
         }
     }
 

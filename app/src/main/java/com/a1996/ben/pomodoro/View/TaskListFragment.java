@@ -23,6 +23,7 @@ public class TaskListFragment extends Fragment {
     public interface TaskAdapterInterface {
         public void goToContent(int position);
         public void longItemClick(int position);
+        public void delete(int position, TaskAdapter taskAdapter);
     }
 
     @Nullable

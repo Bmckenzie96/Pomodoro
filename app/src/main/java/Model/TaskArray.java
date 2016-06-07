@@ -7,6 +7,9 @@ import java.util.ArrayList;
  */
 public class TaskArray {
     public static ArrayList<Task> taskArrayList = new ArrayList<Task>();
+    public static void removeTask(int index) {
+        taskArrayList.remove(index);
+    }
     public static void addTask(Task task) {
         taskArrayList.add(task);
     }
