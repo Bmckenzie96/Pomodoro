@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.a1996.ben.pomodoro.R;
@@ -20,17 +21,13 @@ import Model.TaskArray;
 
 public class Tasks extends AppCompatActivity implements TaskListFragment.TaskAdapterInterface{
 
+    TaskListFragment mTaskListFragment;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tasks);
-        Button backButton = (Button) findViewById(R.id.backButton);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
         Button addButton = (Button) findViewById(R.id.addButton);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,10 +36,10 @@ public class Tasks extends AppCompatActivity implements TaskListFragment.TaskAda
                 startActivity(intent);
             }
         });
-        TaskListFragment taskListFragment = new TaskListFragment();
+        mTaskListFragment = new TaskListFragment();
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.tasksPlaceHolder, taskListFragment);
+        fragmentTransaction.add(R.id.tasksPlaceHolder, mTaskListFragment);
         fragmentTransaction.commit();
     }
 
@@ -69,5 +66,15 @@ public class Tasks extends AppCompatActivity implements TaskListFragment.TaskAda
         Toast.makeText(Tasks.this, "item " + position  + "delete pushed",Toast.LENGTH_SHORT).show();
         TaskArray.removeTask(position);
         taskAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showEmpty(TextView textView) {
+        textView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideEmpty(TextView textView) {
+        textView.setVisibility(View.INVISIBLE);
     }
 }
