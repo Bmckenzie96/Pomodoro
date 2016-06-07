@@ -27,6 +27,7 @@ public class TaskListFragment extends Fragment {
     public interface TaskAdapterInterface {
         public void goToContent(int position);
         public void longItemClick(int position);
+        public void goToEdit(int position);
         public void delete(int position, TaskAdapter taskAdapter);
         public void showEmpty(TextView textView);
         public void hideEmpty(TextView textView);

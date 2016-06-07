@@ -1,8 +1,16 @@
 package Utils;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.CountDownTimer;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 import android.widget.TextView;
+
+import com.a1996.ben.pomodoro.R;
 
 /**
  * Created by Ben on 6/4/2016.

@@ -19,9 +19,10 @@ import com.a1996.ben.pomodoro.R;
 import Model.Task;
 import Model.TaskArray;
 
-public class Tasks extends AppCompatActivity implements TaskListFragment.TaskAdapterInterface{
+public class Tasks extends AppCompatActivity implements TaskListFragment.TaskAdapterInterface, EditTaskFragment.EditTaskInterface{
 
     TaskListFragment mTaskListFragment;
+    EditTaskFragment mEditTaskFragment;
 
 
     @Override
@@ -49,6 +50,7 @@ public class Tasks extends AppCompatActivity implements TaskListFragment.TaskAda
         Bundle args = new Bundle();
         args.putString("TITLE", TaskArray.taskArrayList.get(position).getTitle());
         args.putString("CONTENT", TaskArray.taskArrayList.get(position).getContent());
+        args.putInt("INDEX", position);
         TaskContentFragment taskContentFragment = new TaskContentFragment();
         taskContentFragment.setArguments(args);
         getFragmentManager().beginTransaction()
@@ -59,6 +61,18 @@ public class Tasks extends AppCompatActivity implements TaskListFragment.TaskAda
     @Override
     public void longItemClick(int position) {
         Toast.makeText(Tasks.this, "item " + position  + "long clicked",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void goToEdit(int position) {
+        Bundle args = new Bundle();
+        args.putString("TITLE", TaskArray.taskArrayList.get(position).getTitle());
+        args.putString("CONTENT", TaskArray.taskArrayList.get(position).getContent());
+        mEditTaskFragment = new EditTaskFragment();
+        mEditTaskFragment.setArguments(args);
+        getFragmentManager().beginTransaction()
+                .replace(R.id.tasksPlaceHolder, mEditTaskFragment)
+                .addToBackStack("Task Edit View").commit();
     }
 
     @Override
@@ -76,5 +90,17 @@ public class Tasks extends AppCompatActivity implements TaskListFragment.TaskAda
     @Override
     public void hideEmpty(TextView textView) {
         textView.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void doneEdit(String title, String content, int index) {
+        TaskArray.taskArrayList.get(index).setTitle(title);
+        TaskArray.taskArrayList.get(index).setContent(content);
+        getFragmentManager().popBackStack();
+    }
+
+    @Override
+    public void cancelEdit() {
+        finish();
     }
 }
