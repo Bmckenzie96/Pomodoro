@@ -49,6 +49,14 @@ public class Tasks extends AppCompatActivity implements TaskListFragment.TaskAda
     @Override
     public void goToContent(int position) {
         Toast.makeText(Tasks.this, "item " + position  + " clicked",Toast.LENGTH_SHORT).show();
+        Bundle args = new Bundle();
+        args.putString("TITLE", TaskArray.taskArrayList.get(position).getTitle());
+        args.putString("CONTENT", TaskArray.taskArrayList.get(position).getContent());
+        TaskContentFragment taskContentFragment = new TaskContentFragment();
+        taskContentFragment.setArguments(args);
+        getFragmentManager().beginTransaction()
+                .replace(R.id.tasksPlaceHolder, taskContentFragment)
+                .addToBackStack("Task View").commit();
     }
 
     @Override
