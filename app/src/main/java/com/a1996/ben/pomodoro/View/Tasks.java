@@ -55,4 +55,11 @@ public class Tasks extends AppCompatActivity implements TaskListFragment.TaskAda
     public void longItemClick(int position) {
         Toast.makeText(Tasks.this, "item " + position  + "long clicked",Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void delete(int position, TaskAdapter taskAdapter) {
+        Toast.makeText(Tasks.this, "item " + position  + "delete pushed",Toast.LENGTH_SHORT).show();
+        TaskArray.removeTask(position);
+        taskAdapter.notifyDataSetChanged();
+    }
 }
