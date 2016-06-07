@@ -17,8 +17,12 @@ import Model.Task;
  * Created by Ben on 6/5/2016.
  */
 public class TaskListFragment extends Fragment {
+
+    TaskAdapter mTaskAdapter;
+
     public interface TaskAdapterInterface {
         public void goToContent(int position);
+        public void longItemClick(int position);
     }
 
     @Nullable
@@ -27,10 +31,16 @@ public class TaskListFragment extends Fragment {
         View view = inflater.inflate(R.layout.task_list_fragment, container, false);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerTaskView);
         TaskAdapterInterface taskAdapterInterface = (TaskAdapterInterface) getActivity();
-        TaskAdapter taskAdapter = new TaskAdapter(taskAdapterInterface);
-        recyclerView.setAdapter(taskAdapter);
+        mTaskAdapter = new TaskAdapter(taskAdapterInterface);
+        recyclerView.setAdapter(mTaskAdapter);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mTaskAdapter.notifyDataSetChanged();
     }
 }

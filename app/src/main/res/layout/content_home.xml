@@ -30,5 +30,5 @@
         android:text="New Button"
         android:id="@+id/taskListButton"
         android:layout_gravity="center_vertical|right"
-        android:layout_weight="1"/>
+        />
 </LinearLayout>
