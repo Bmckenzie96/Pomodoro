@@ -86,6 +86,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                     }
                 }
             });
+            editTask.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mTaskAdapterInterface.goToEdit(mIndex);
+                }
+            });
         }
     }
 
