@@ -9,4 +9,14 @@
 
     </android.support.v7.widget.RecyclerView>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="No data to display"
+        android:visibility="invisible"
+        android:id="@+id/taskListEmpty"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"/>
+
 </RelativeLayout>

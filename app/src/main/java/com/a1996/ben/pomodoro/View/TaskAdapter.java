@@ -22,10 +22,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
     ArrayList<Task> mTasks;
     TaskListFragment.TaskAdapterInterface mTaskAdapterInterface;
+    TextView mEmptyText;
 
-    public TaskAdapter(TaskListFragment.TaskAdapterInterface taskAdapterInterface) {
+    public TaskAdapter(TaskListFragment.TaskAdapterInterface taskAdapterInterface, TextView textView) {
         mTasks = TaskArray.taskArrayList;
         mTaskAdapterInterface = taskAdapterInterface;
+        mEmptyText = textView;
     }
 
 
@@ -79,6 +81,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                 @Override
                 public void onClick(View v) {
                     mTaskAdapterInterface.delete(mIndex, TaskAdapter.this);
+                    if (mTasks.isEmpty()) {
+                        mTaskAdapterInterface.showEmpty(mEmptyText);
+                    }
                 }
             });
         }
