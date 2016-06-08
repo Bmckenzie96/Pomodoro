@@ -29,14 +29,6 @@ public class Tasks extends AppCompatActivity implements TaskListFragment.TaskAda
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tasks);
-        Button addButton = (Button) findViewById(R.id.addButton);
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Tasks.this, AddTask.class);
-                startActivity(intent);
-            }
-        });
         mTaskListFragment = new TaskListFragment();
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -93,6 +85,12 @@ public class Tasks extends AppCompatActivity implements TaskListFragment.TaskAda
     }
 
     @Override
+    public void addTask() {
+        Intent intent = new Intent(this, AddTask.class);
+        this.startActivity(intent);
+    }
+
+    @Override
     public void doneEdit(String title, String content, int index) {
         TaskArray.taskArrayList.get(index).setTitle(title);
         TaskArray.taskArrayList.get(index).setContent(content);
@@ -101,6 +99,6 @@ public class Tasks extends AppCompatActivity implements TaskListFragment.TaskAda
 
     @Override
     public void cancelEdit() {
-        finish();
+        getFragmentManager().popBackStack();
     }
 }

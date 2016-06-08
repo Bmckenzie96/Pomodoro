@@ -4,9 +4,9 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:weightSum="25"
-              android:background="#3273c3"
               android:paddingTop="10dp"
-              android:paddingBottom="10dp">
+              android:paddingBottom="10dp"
+    >
 
     <TextView
         android:layout_width="wrap_content"

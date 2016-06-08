@@ -24,9 +24,11 @@ public class TimerFragment extends Fragment implements View.OnClickListener {
     public interface FragmentCreated {
         void onFragmentCreated(View v);
         void onStartTimer(View v);
+        void onTaskListClick();
     }
     Button mFocus;
     Button mBreak;
+    Button mTaskList;
     ImageButton mPlayPause;
     TextView mTimeView;
     FragmentCreated mListener;
@@ -35,6 +37,13 @@ public class TimerFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.timer_fragment, container, false);
         mListener = (FragmentCreated) getActivity();
+        mTaskList = (Button) view.findViewById(R.id.goToTasks);
+        mTaskList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onTaskListClick();
+            }
+        });
         mFocus = (Button) view.findViewById(R.id.focusButton);
         mFocus.setOnClickListener(this);
         mBreak = (Button) view.findViewById(R.id.breakButton);

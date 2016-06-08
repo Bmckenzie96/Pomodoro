@@ -35,14 +35,6 @@ public class Home extends AppCompatActivity implements TimerFragment.FragmentCre
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.placeHolder, mTimerFragment);
         fragmentTransaction.commit();
-        mTaskList = (Button) findViewById(R.id.taskListButton);
-        mTaskList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(Home.this, Tasks.class);
-                startActivity(i);
-            }
-        });
     }
 
 
@@ -55,5 +47,11 @@ public class Home extends AppCompatActivity implements TimerFragment.FragmentCre
     @Override
     public void onStartTimer(View v) {
         v.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onTaskListClick() {
+        Intent i = new Intent(Home.this, Tasks.class);
+        startActivity(i);
     }
 }
