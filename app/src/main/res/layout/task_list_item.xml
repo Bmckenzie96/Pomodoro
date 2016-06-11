@@ -42,7 +42,7 @@
         android:id="@+id/taskDelete"
         android:layout_gravity="center"
         android:layout_weight="1"
-        android:src="@android:drawable/ic_delete"
+        android:src="@android:drawable/ic_input_delete"
         android:background="#00ffffff"/>
 
 </LinearLayout>

@@ -10,9 +10,17 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="25:00"
         android:id="@+id/timer"
+        android:textSize="50sp"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:textSize="50sp"/>
+        android:layout_centerHorizontal="true"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/playPause"
+        android:background="@android:drawable/ic_media_play"
+        android:layout_below="@+id/timer"
+        android:layout_centerHorizontal="true"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -31,14 +39,6 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"/>
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/playPause"
-        android:layout_below="@+id/timer"
-        android:layout_centerHorizontal="true"
-        android:background="@android:drawable/ic_media_play"/>
 
     <Button
         android:layout_width="wrap_content"

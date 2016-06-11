@@ -31,7 +31,7 @@ public class AddTask extends AppCompatActivity implements AddTaskFragment.DoneAd
     @Override
     public void doneAdding(EditText title, EditText content) {
         Task task = new Task(title.getText().toString(), content.getText().toString());
-        TaskArray.addTask(task);
+        TaskArray.addTask(task, this);
         finish();
     }
 

@@ -6,6 +6,16 @@ package Model;
 public class Task {
     String mTitle;
     String mContent;
+    long rowId;
+
+    public long getRowId() {
+        return rowId;
+    }
+
+    public void setRowId(long rowId) {
+        this.rowId = rowId;
+    }
+
     public Task(String title, String content) {
         mTitle = title;
         mContent = content;

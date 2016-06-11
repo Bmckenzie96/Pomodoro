@@ -19,17 +19,18 @@ import android.widget.Toast;
 
 import com.a1996.ben.pomodoro.R;
 
+import Model.TaskArray;
 import Utils.CountdownTimer;
 
 public class Home extends AppCompatActivity implements TimerFragment.FragmentCreated {
 
     TimerFragment mTimerFragment;
-    Button mTaskList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        TaskArray.initialPopulation(this);
         mTimerFragment = new TimerFragment();
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -40,7 +41,7 @@ public class Home extends AppCompatActivity implements TimerFragment.FragmentCre
 
     @Override
     public void onFragmentCreated(View v) {
-        Toast.makeText(this, "made Invisible",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "made Invisible",Toast.LENGTH_SHORT).show();
         v.setVisibility(View.INVISIBLE);
     }
 

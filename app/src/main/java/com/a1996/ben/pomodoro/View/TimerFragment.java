@@ -29,9 +29,10 @@ public class TimerFragment extends Fragment implements View.OnClickListener {
     Button mFocus;
     Button mBreak;
     Button mTaskList;
-    ImageButton mPlayPause;
     TextView mTimeView;
+    ImageButton mPlayPause;
     FragmentCreated mListener;
+    public static boolean fromNotification = false;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,25 +57,38 @@ public class TimerFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if (fromNotification) {
+            CountdownTimer.getInstance(mTimeView, getActivity()).play(mTimeView);
+            fromNotification = false;
+            mPlayPause.setVisibility(View.VISIBLE);
+            mPlayPause.setBackgroundResource(android.R.drawable.ic_media_pause);
+        }
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.focusButton:
-                CountdownTimer.getInstance().startTime(1500, 1000, mTimeView);
+                CountdownTimer.getInstance(mTimeView, getActivity()).startTime(5, 1000, mTimeView);
                 mPlayPause.setBackgroundResource(android.R.drawable.ic_media_pause);
                 mListener.onStartTimer(mPlayPause);
+                CountdownTimer.getInstance(mTimeView, getActivity()).isFocus = true;
                 break;
             case R.id.breakButton:
-                CountdownTimer.getInstance().startTime(300, 1000, mTimeView);
+                CountdownTimer.getInstance(mTimeView, getActivity()).startTime(300, 1000, mTimeView);
                 mPlayPause.setBackgroundResource(android.R.drawable.ic_media_pause);
                 mListener.onStartTimer(mPlayPause);
+                CountdownTimer.getInstance(mTimeView, getActivity()).isFocus = false;
                 break;
             case R.id.playPause:
-                if (CountdownTimer.getInstance().isCounting) {
-                    CountdownTimer.getInstance().pause();
+                if (CountdownTimer.getInstance(mTimeView, getActivity()).isCounting) {
+                    CountdownTimer.getInstance(mTimeView, getActivity()).pause();
                     mPlayPause.setBackgroundResource(android.R.drawable.ic_media_play);
                 }
                 else {
-                    CountdownTimer.getInstance().play(mTimeView);
+                    CountdownTimer.getInstance(mTimeView, getActivity()).play(mTimeView);
                     mPlayPause.setBackgroundResource(android.R.drawable.ic_media_pause);
                 }
                 break;
