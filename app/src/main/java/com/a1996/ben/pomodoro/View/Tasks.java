@@ -39,7 +39,6 @@ public class Tasks extends AppCompatActivity implements TaskListFragment.TaskAda
 
     @Override
     public void goToContent(int position) {
-        Toast.makeText(Tasks.this, "item " + position  + " clicked",Toast.LENGTH_SHORT).show();
         Bundle args = new Bundle();
         args.putString("TITLE", TaskArray.taskArrayList.get(position).getTitle());
         args.putString("CONTENT", TaskArray.taskArrayList.get(position).getContent());
@@ -53,7 +52,6 @@ public class Tasks extends AppCompatActivity implements TaskListFragment.TaskAda
 
     @Override
     public void longItemClick(int position) {
-        Toast.makeText(Tasks.this, "item " + position  + "long clicked",Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -70,7 +68,6 @@ public class Tasks extends AppCompatActivity implements TaskListFragment.TaskAda
 
     @Override
     public void delete(int position, TaskAdapter taskAdapter) {
-        Toast.makeText(Tasks.this, "item " + position  + "delete pushed",Toast.LENGTH_SHORT).show();
         TaskDataSource taskDataSource = new TaskDataSource(this.getApplicationContext());
         taskDataSource.open();
         taskDataSource.deleteTask(TaskArray.taskArrayList.get(position));

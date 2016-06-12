@@ -25,12 +25,17 @@ import Utils.CountdownTimer;
 public class Home extends AppCompatActivity implements TimerFragment.FragmentCreated {
 
     TimerFragment mTimerFragment;
+    private static boolean firstRun = true;
+    public static boolean isRunning;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        TaskArray.initialPopulation(this);
+        if (firstRun) {
+            TaskArray.initialPopulation(this);
+            firstRun = false;
+        }
         mTimerFragment = new TimerFragment();
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -54,5 +59,17 @@ public class Home extends AppCompatActivity implements TimerFragment.FragmentCre
     public void onTaskListClick() {
         Intent i = new Intent(Home.this, Tasks.class);
         startActivity(i);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isRunning = true;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isRunning = false;
     }
 }

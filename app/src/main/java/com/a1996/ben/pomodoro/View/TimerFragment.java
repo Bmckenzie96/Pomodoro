@@ -1,14 +1,19 @@
 package com.a1996.ben.pomodoro.View;
 
 import android.app.Fragment;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.PowerManager;
+import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -65,6 +70,8 @@ public class TimerFragment extends Fragment implements View.OnClickListener {
             mPlayPause.setVisibility(View.VISIBLE);
             mPlayPause.setBackgroundResource(android.R.drawable.ic_media_pause);
         }
+        NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancel(5);
     }
 
     @Override

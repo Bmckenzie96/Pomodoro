@@ -5,6 +5,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.CountDownTimer;
+import android.os.PowerManager;
+import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
@@ -76,13 +78,14 @@ public class CountdownTimer {
 
             @Override
             public void onFinish() {
-                notifyTimeUp();
                 textView.setText("0");
                 if (mInstance.isFocus) {
+                    notifyTimeUp("Done Focusing!", "Your time for focus is up, your break started!");
                     startTime(300, 1000, mTimeView);
                     mInstance.isFocus = false;
                 }
                 else {
+                    notifyTimeUp("Done with Break!", "All good things come to an end, get back to work!");
                     startTime(1500, 1000, mTimeView);
                     mInstance.isFocus = true;
                 }
@@ -90,13 +93,19 @@ public class CountdownTimer {
         }.start();
     }
 
-    public void notifyTimeUp() {
+    public void notifyTimeUp(String title, String content) {
+        if (Home.isRunning) {
+            return;
+        }
         TimerFragment.fromNotification = true;
+        Vibrator v = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
+        // Vibrate for 500 milliseconds
+        v.vibrate(500);
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(mContext)
                         .setSmallIcon(R.mipmap.ic_launcher)
-                        .setContentTitle("My notification")
-                        .setContentText("Hello World!")
+                        .setContentTitle(title)
+                        .setContentText(content)
                         .setAutoCancel(true);
 // Creates an explicit intent for an Activity in your app
         Intent resultIntent = new Intent(mContext, Home.class);

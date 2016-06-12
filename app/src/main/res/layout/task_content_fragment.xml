@@ -10,7 +10,8 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Task Title:"
         android:id="@+id/taskViewTitle"
-        android:textSize="30sp"/>
+        android:textSize="30sp"
+        android:layout_marginLeft="8dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -18,5 +19,6 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Task Content"
         android:id="@+id/taskViewContent"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="8dp"/>
 </LinearLayout>
