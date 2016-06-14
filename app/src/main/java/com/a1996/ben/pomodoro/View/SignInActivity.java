@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.a1996.ben.pomodoro.R;
@@ -17,10 +18,12 @@ import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.async.callback.BackendlessCallback;
+import com.backendless.exceptions.BackendlessException;
 import com.backendless.exceptions.BackendlessFault;
 import com.backendless.persistence.local.UserTokenStorageFactory;
 
-public class SignInActivity extends AppCompatActivity implements SigninFragment.signInInterface{
+public class SignInActivity extends AppCompatActivity implements SigninFragment.signInInterface,
+RegisterFragment.registerInterface{
 
     boolean isValidLogin;
 
@@ -30,15 +33,30 @@ public class SignInActivity extends AppCompatActivity implements SigninFragment.
         setContentView(R.layout.activity_sign_in);
         String appVersion = "v1";
         Backendless.initApp( this, "2B14DE22-099E-0107-FF72-32ACB6AB4400", "FC429597-C101-BEB9-FF19-344F9FCB9200", appVersion );
-        // UserTokenStorageFactory is available in the com.backendless.persistence.local package
+        Backendless.UserService.logout( new AsyncCallback<Void>()
+        {
+            public void handleResponse( Void response )
+            {
+                // user has been logged out.
+
+            }
+
+            public void handleFault( BackendlessFault fault )
+            {
+                // something went wrong and logout failed, to get the error code call fault.getCode()
+                Toast.makeText(SignInActivity.this, fault.getCode(), Toast.LENGTH_LONG).show();
+            }
+        });
         AsyncCallback<Boolean> isValidLoginCallback = new AsyncCallback<Boolean>()
         {
             @Override
             public void handleResponse( Boolean response )
             {
                 System.out.println( "[ASYNC] Is login valid? - " + response );
-                Intent intent = new Intent(SignInActivity.this, Home.class);
-                startActivity(intent);
+                if(response == true) {
+                    Intent intent = new Intent(SignInActivity.this, Home.class);
+                    startActivity(intent);
+                }
             }
 
             @Override
@@ -82,4 +100,64 @@ public class SignInActivity extends AppCompatActivity implements SigninFragment.
             }
         }, true);
     }
+
+    @Override
+    public void register() {
+        RegisterFragment registerFragment = new RegisterFragment();
+        getFragmentManager().beginTransaction()
+                .replace(R.id.signInOrRegisterPlaceholder, registerFragment)
+                .addToBackStack("Register").commit();
+    }
+
+    @Override
+    public void hideButton(Button button) {
+        button.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void hidePasswordMatch(TextView textView) {
+        textView.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void showButton(Button button) {
+        button.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showPasswordMatch(TextView textView) {
+        textView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void registerUser(final Button button, final ProgressBar progressBar, EditText email, EditText password) {
+        BackendlessUser user = new BackendlessUser();
+        user.setProperty( "email", email.getText().toString() );
+        user.setPassword( password.getText().toString() );
+        button.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
+        try {
+            Backendless.UserService.register(user, new AsyncCallback<BackendlessUser>() {
+                public void handleResponse(BackendlessUser registeredUser) {
+                    // user has been registered and now can login
+                    Intent intent = new Intent(SignInActivity.this, Home.class);
+                    startActivity(intent);
+
+                }
+
+                public void handleFault(BackendlessFault fault) {
+                    // an error has occurred, the error code can be retrieved with fault.getCode()
+                    Toast.makeText(SignInActivity.this, fault.getMessage(), Toast.LENGTH_LONG).show();
+                    button.setVisibility(View.INVISIBLE);
+                    progressBar.setVisibility(View.VISIBLE);
+                }
+            });
+        } catch ( java.lang.IllegalArgumentException ex) {
+            Toast.makeText(SignInActivity.this, "Email and Password cannot be empty", Toast.LENGTH_LONG).show();
+            button.setVisibility(View.INVISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
+        }
+    }
+
+
 }
