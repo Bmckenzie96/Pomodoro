@@ -9,18 +9,27 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class TaskSQLHelper extends SQLiteOpenHelper{
 
+    public static String BackendlessUserId = "";
     public static final String TABLE_NAME = "TASKS";
     public static final String COLUMN_TITLE = "TITLE";
     public static final String COLUMN_CONTENT = "CONTENT";
     public static final String COLUMN_ID = "_ID";
+    public static final String COLUMN_DIRTY = "DIRTY";
+    public static final String COLUMN_USERID = "USERID";
+    private static final String DB_ALTER_USERID = "ALTER TABLE " + TABLE_NAME
+            + " ADD COLUMN " + COLUMN_USERID + " TEXT";
+    private static final String DB_ALTER_DIRTY = "ALTER TABLE " + TABLE_NAME
+            + " ADD COLUMN " + COLUMN_DIRTY + " INTEGER";
 
     private static final String DB_NAME = "tasks.db";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2;
     private static final String DB_CREATE = "CREATE TABLE "
             + TABLE_NAME + "("
             + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + COLUMN_TITLE + " TEXT, "
-            + COLUMN_CONTENT + " TEXT)";
+            + COLUMN_CONTENT + " TEXT, "
+            + COLUMN_USERID + " TEXT, "
+            + COLUMN_DIRTY + " INTEGER)";
 
     public TaskSQLHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -32,6 +41,7 @@ public class TaskSQLHelper extends SQLiteOpenHelper{
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        db.execSQL(DB_ALTER_USERID);
+        db.execSQL(DB_ALTER_DIRTY);
     }
 }

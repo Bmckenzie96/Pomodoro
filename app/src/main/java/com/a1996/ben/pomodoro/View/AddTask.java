@@ -14,6 +14,7 @@ import com.a1996.ben.pomodoro.R;
 
 import Model.Task;
 import Model.TaskArray;
+import Utils.TaskSQLHelper;
 
 public class AddTask extends AppCompatActivity implements AddTaskFragment.DoneAddingTask {
 
@@ -30,7 +31,7 @@ public class AddTask extends AppCompatActivity implements AddTaskFragment.DoneAd
 
     @Override
     public void doneAdding(EditText title, EditText content) {
-        Task task = new Task(title.getText().toString(), content.getText().toString());
+        Task task = new Task(title.getText().toString(), content.getText().toString(), TaskSQLHelper.BackendlessUserId);
         TaskArray.addTask(task, this);
         finish();
     }

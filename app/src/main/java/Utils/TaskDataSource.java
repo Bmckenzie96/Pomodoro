@@ -36,6 +36,8 @@ public class TaskDataSource {
         ContentValues contentValues = new ContentValues();
         contentValues.put(TaskSQLHelper.COLUMN_TITLE, task.getTitle());
         contentValues.put(TaskSQLHelper.COLUMN_CONTENT, task.getContent());
+        contentValues.put(TaskSQLHelper.COLUMN_USERID, task.getOwnersId());
+        contentValues.put(TaskSQLHelper.COLUMN_DIRTY, task.getIsDirty());
         return mDatabase.insert(TaskSQLHelper.TABLE_NAME, null, contentValues);
     }
 
@@ -43,7 +45,8 @@ public class TaskDataSource {
     public Cursor selectAllTasks() {
         Cursor cursor = mDatabase.query(
                 TaskSQLHelper.TABLE_NAME,
-                new String[] {TaskSQLHelper.COLUMN_ID, TaskSQLHelper.COLUMN_TITLE, TaskSQLHelper.COLUMN_CONTENT},
+                new String[] {TaskSQLHelper.COLUMN_ID, TaskSQLHelper.COLUMN_TITLE, TaskSQLHelper.COLUMN_CONTENT,
+                        TaskSQLHelper.COLUMN_USERID, TaskSQLHelper.COLUMN_DIRTY},
                 null, null, null, null, null
         );
         return cursor;
@@ -62,12 +65,26 @@ public class TaskDataSource {
         return cursor;
     }
 
+    //select all dirty tasks
+    public Cursor selectDirtyTasks() {
+        String whereClause = "WHERE " + TaskSQLHelper.COLUMN_DIRTY + " = ?";
+        Cursor cursor = mDatabase.query(
+                TaskSQLHelper.TABLE_NAME,
+                new String[] {TaskSQLHelper.COLUMN_TITLE, TaskSQLHelper.COLUMN_CONTENT, TaskSQLHelper.COLUMN_USERID},
+                whereClause,
+                new String[] {1 + ""},
+                null, null, null
+        );
+        return cursor;
+    }
+
     //update
     public int updateTask(Task task){
         ContentValues contentValues = new ContentValues();
         String whereClause = TaskSQLHelper.COLUMN_ID + " = ?";
         contentValues.put(TaskSQLHelper.COLUMN_TITLE, task.getTitle());
         contentValues.put(TaskSQLHelper.COLUMN_CONTENT, task.getContent());
+        contentValues.put(TaskSQLHelper.COLUMN_DIRTY, task.getIsDirty());
         int rowsUpdated = mDatabase.update(
                 TaskSQLHelper.TABLE_NAME,
                 contentValues,

@@ -22,6 +22,8 @@ import com.backendless.exceptions.BackendlessException;
 import com.backendless.exceptions.BackendlessFault;
 import com.backendless.persistence.local.UserTokenStorageFactory;
 
+import Utils.TaskSQLHelper;
+
 public class SignInActivity extends AppCompatActivity implements SigninFragment.signInInterface,
 RegisterFragment.registerInterface{
 
@@ -131,7 +133,7 @@ RegisterFragment.registerInterface{
 
     @Override
     public void registerUser(final Button button, final ProgressBar progressBar, EditText email, EditText password) {
-        BackendlessUser user = new BackendlessUser();
+        final BackendlessUser user = new BackendlessUser();
         user.setProperty( "email", email.getText().toString() );
         user.setPassword( password.getText().toString() );
         button.setVisibility(View.INVISIBLE);
@@ -140,6 +142,9 @@ RegisterFragment.registerInterface{
             Backendless.UserService.register(user, new AsyncCallback<BackendlessUser>() {
                 public void handleResponse(BackendlessUser registeredUser) {
                     // user has been registered and now can login
+                    TaskSQLHelper.BackendlessUserId = user.getObjectId();
+                    Log.i("user id", TaskSQLHelper.BackendlessUserId);
+                    getFragmentManager().popBackStack();
                     Intent intent = new Intent(SignInActivity.this, Home.class);
                     startActivity(intent);
 
@@ -148,8 +153,8 @@ RegisterFragment.registerInterface{
                 public void handleFault(BackendlessFault fault) {
                     // an error has occurred, the error code can be retrieved with fault.getCode()
                     Toast.makeText(SignInActivity.this, fault.getMessage(), Toast.LENGTH_LONG).show();
-                    button.setVisibility(View.INVISIBLE);
-                    progressBar.setVisibility(View.VISIBLE);
+                    button.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.INVISIBLE);
                 }
             });
         } catch ( java.lang.IllegalArgumentException ex) {

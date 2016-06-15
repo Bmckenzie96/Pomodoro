@@ -53,4 +53,11 @@ public class SigninFragment extends Fragment {
         });
         return view;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mEmail.setText("");
+        mPassword.setText("");
+    }
 }

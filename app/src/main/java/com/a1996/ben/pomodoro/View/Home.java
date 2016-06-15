@@ -21,6 +21,7 @@ import com.a1996.ben.pomodoro.R;
 
 import Model.TaskArray;
 import Utils.CountdownTimer;
+import Utils.TaskSQLHelper;
 
 public class Home extends AppCompatActivity implements TimerFragment.FragmentCreated {
 
@@ -36,6 +37,7 @@ public class Home extends AppCompatActivity implements TimerFragment.FragmentCre
             TaskArray.initialPopulation(this);
             firstRun = false;
         }
+        Log.i("user_id", TaskSQLHelper.BackendlessUserId);
         mTimerFragment = new TimerFragment();
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -59,6 +61,16 @@ public class Home extends AppCompatActivity implements TimerFragment.FragmentCre
     public void onTaskListClick() {
         Intent i = new Intent(Home.this, Tasks.class);
         startActivity(i);
+    }
+
+    @Override
+    public void handleLogout(String fault) {
+        Toast.makeText(Home.this, fault, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void goToSignIn() {
+        finish();
     }
 
     @Override

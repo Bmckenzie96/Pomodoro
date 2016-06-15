@@ -36,7 +36,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.a1996.ben.pomodoro.View.Tasks"/>
         </activity>
-        <activity android:name=".View.SignInActivity">
+        <activity
+            android:name=".View.SignInActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

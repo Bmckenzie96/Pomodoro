@@ -19,6 +19,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.a1996.ben.pomodoro.R;
+import com.backendless.Backendless;
+import com.backendless.async.callback.AsyncCallback;
+import com.backendless.exceptions.BackendlessFault;
 
 import Utils.CountdownTimer;
 
@@ -30,7 +33,10 @@ public class TimerFragment extends Fragment implements View.OnClickListener {
         void onFragmentCreated(View v);
         void onStartTimer(View v);
         void onTaskListClick();
+        void handleLogout(String fault);
+        void goToSignIn();
     }
+    Button mLogout;
     Button mFocus;
     Button mBreak;
     Button mTaskList;
@@ -54,6 +60,26 @@ public class TimerFragment extends Fragment implements View.OnClickListener {
         mFocus.setOnClickListener(this);
         mBreak = (Button) view.findViewById(R.id.breakButton);
         mBreak.setOnClickListener(this);
+        mLogout = (Button) view.findViewById(R.id.logoutButton);
+        mLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Backendless.UserService.logout(new AsyncCallback<Void>()
+                {
+                    public void handleResponse( Void response )
+                    {
+                        // user has been logged out.
+                        mListener.goToSignIn();
+                    }
+
+                    public void handleFault( BackendlessFault fault )
+                    {
+                        // something went wrong and logout failed, to get the error code call fault.getCode()
+                        mListener.handleLogout(fault.getMessage());
+                    }
+                });
+            }
+        });
         mTimeView = (TextView) view.findViewById(R.id.timer);
         mPlayPause = (ImageButton) view.findViewById(R.id.playPause);
         mPlayPause.setOnClickListener(this);

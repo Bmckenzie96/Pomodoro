@@ -35,8 +35,10 @@ public class TaskArray {
             String title = cursor.getString(i);
             i = cursor.getColumnIndex(TaskSQLHelper.COLUMN_CONTENT);
             String content = cursor.getString(i);
+            i =  cursor.getColumnIndex(TaskSQLHelper.COLUMN_USERID);
+            String ownerId = cursor.getString(i);
+            Task task = new Task(title, content, ownerId);
             i = cursor.getColumnIndex(TaskSQLHelper.COLUMN_ID);
-            Task task = new Task(title, content);
             task.setRowId(cursor.getInt(i));
             taskArrayList.add(task);
             cursor.moveToNext();
