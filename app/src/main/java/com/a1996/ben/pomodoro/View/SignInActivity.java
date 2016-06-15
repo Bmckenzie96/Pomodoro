@@ -20,6 +20,7 @@ import com.backendless.async.callback.AsyncCallback;
 import com.backendless.async.callback.BackendlessCallback;
 import com.backendless.exceptions.BackendlessException;
 import com.backendless.exceptions.BackendlessFault;
+import com.backendless.persistence.local.UserIdStorageFactory;
 import com.backendless.persistence.local.UserTokenStorageFactory;
 
 import Utils.TaskSQLHelper;
@@ -35,20 +36,6 @@ RegisterFragment.registerInterface{
         setContentView(R.layout.activity_sign_in);
         String appVersion = "v1";
         Backendless.initApp( this, "2B14DE22-099E-0107-FF72-32ACB6AB4400", "FC429597-C101-BEB9-FF19-344F9FCB9200", appVersion );
-        Backendless.UserService.logout( new AsyncCallback<Void>()
-        {
-            public void handleResponse( Void response )
-            {
-                // user has been logged out.
-
-            }
-
-            public void handleFault( BackendlessFault fault )
-            {
-                // something went wrong and logout failed, to get the error code call fault.getCode()
-                Toast.makeText(SignInActivity.this, fault.getCode(), Toast.LENGTH_LONG).show();
-            }
-        });
         AsyncCallback<Boolean> isValidLoginCallback = new AsyncCallback<Boolean>()
         {
             @Override
@@ -87,6 +74,7 @@ RegisterFragment.registerInterface{
             public void handleResponse( BackendlessUser user )
             {
                 // user has been logged in
+                TaskSQLHelper.BackendlessUserId = Backendless.UserService.CurrentUser().getUserId();
                 Intent intent = new Intent(SignInActivity.this, Home.class);
                 startActivity(intent);
                 progressBar.setVisibility(View.INVISIBLE);
@@ -142,7 +130,7 @@ RegisterFragment.registerInterface{
             Backendless.UserService.register(user, new AsyncCallback<BackendlessUser>() {
                 public void handleResponse(BackendlessUser registeredUser) {
                     // user has been registered and now can login
-                    TaskSQLHelper.BackendlessUserId = user.getObjectId();
+                    TaskSQLHelper.BackendlessUserId = user.getUserId();
                     Log.i("user id", TaskSQLHelper.BackendlessUserId);
                     getFragmentManager().popBackStack();
                     Intent intent = new Intent(SignInActivity.this, Home.class);

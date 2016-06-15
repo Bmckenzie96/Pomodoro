@@ -18,6 +18,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.a1996.ben.pomodoro.R;
+import com.backendless.Backendless;
+import com.backendless.persistence.local.UserIdStorageFactory;
 
 import Model.TaskArray;
 import Utils.CountdownTimer;
@@ -33,6 +35,7 @@ public class Home extends AppCompatActivity implements TimerFragment.FragmentCre
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        TaskSQLHelper.BackendlessUserId = UserIdStorageFactory.instance().getStorage().get();
         if (firstRun) {
             TaskArray.initialPopulation(this);
             firstRun = false;
