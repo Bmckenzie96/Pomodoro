@@ -11,6 +11,8 @@ import android.widget.EditText;
 
 import com.a1996.ben.pomodoro.R;
 
+import Utils.HideKeyboard;
+
 /**
  * Created by Ben on 6/7/2016.
  */
@@ -28,6 +30,7 @@ public class EditTaskFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.task_edit_fragment, container, false);
+        HideKeyboard.setupUI(view, getActivity());
         mTitle = (EditText) view.findViewById(R.id.taskViewTitleEdit);
         mContent = (EditText) view.findViewById(R.id.taskViewContentEdit);
         mDoneButton = (Button) view.findViewById(R.id.doneEdit);

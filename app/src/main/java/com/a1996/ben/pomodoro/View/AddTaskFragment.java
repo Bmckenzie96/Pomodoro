@@ -6,10 +6,13 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.a1996.ben.pomodoro.R;
+
+import Utils.HideKeyboard;
 
 /**
  * Created by Ben on 6/6/2016.
@@ -29,6 +32,7 @@ public class AddTaskFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.add_task_fragment, container, false);
+        HideKeyboard.setupUI(view, getActivity());
         mDoneButton = (Button) view.findViewById(R.id.doneButton);
         mCancel = (Button) view.findViewById(R.id.cancelButton);
         mTitle = (EditText) view.findViewById(R.id.taskTitleEntry);
