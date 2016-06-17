@@ -71,6 +71,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                     return true;
                 }
             });
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mTaskAdapterInterface.goToContent(mIndex);
+                }
+            });
             viewTask.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

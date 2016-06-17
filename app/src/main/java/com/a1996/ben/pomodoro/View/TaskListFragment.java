@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.a1996.ben.pomodoro.R;
@@ -23,6 +24,7 @@ public class TaskListFragment extends Fragment {
     TaskAdapter mTaskAdapter;
     TaskAdapterInterface mTaskAdapterInterface;
     TextView mTextView;
+    Button mAddButton;
 
     public interface TaskAdapterInterface {
         public void goToContent(int position);
@@ -31,12 +33,14 @@ public class TaskListFragment extends Fragment {
         public void delete(int position, TaskAdapter taskAdapter);
         public void showEmpty(TextView textView);
         public void hideEmpty(TextView textView);
+        public void addTask();
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.task_list_fragment, container, false);
+        mAddButton = (Button) view.findViewById(R.id.addTask);
         mTextView = (TextView) view.findViewById(R.id.taskListEmpty);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerTaskView);
         mTaskAdapterInterface = (TaskAdapterInterface) getActivity();
@@ -44,6 +48,12 @@ public class TaskListFragment extends Fragment {
         recyclerView.setAdapter(mTaskAdapter);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
+        mAddButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTaskAdapterInterface.addTask();
+            }
+        });
         return view;
     }
 

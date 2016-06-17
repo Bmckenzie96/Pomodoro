@@ -7,13 +7,21 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.a1996.ben.pomodoro.R;
+import com.backendless.Backendless;
+import com.backendless.async.callback.AsyncCallback;
+import com.backendless.exceptions.BackendlessFault;
 
+import Model.BackendlessTask;
 import Model.Task;
 import Model.TaskArray;
+import Utils.TaskDataSource;
+import Utils.TaskSQLHelper;
 
 public class AddTask extends AppCompatActivity implements AddTaskFragment.DoneAddingTask {
 
@@ -30,8 +38,27 @@ public class AddTask extends AppCompatActivity implements AddTaskFragment.DoneAd
 
     @Override
     public void doneAdding(EditText title, EditText content) {
-        Task task = new Task(title.getText().toString(), content.getText().toString());
-        TaskArray.addTask(task);
+        final Task task = new Task(title.getText().toString(), content.getText().toString(), TaskSQLHelper.BackendlessUserId);
+        TaskArray.addTask(task, this);
+        final BackendlessTask backendlessTask = new BackendlessTask(task.getTitle(), task.getContent(), task.getOwnersId());
+        Backendless.Persistence.save( backendlessTask, new AsyncCallback<BackendlessTask>() {
+            public void handleResponse( BackendlessTask response )
+            {
+                // new Contact instance has been saved
+                Log.i("Task_save", "saved successfully" + backendlessTask.getOwner());
+            }
+
+            public void handleFault( BackendlessFault fault )
+            {
+                // an error has occurred, the error code can be retrieved with fault.getCode()
+                Toast.makeText(AddTask.this, "Something went wrong, check your internet.", Toast.LENGTH_LONG).show();
+                task.setIsDirty(1);
+                TaskDataSource taskDataSource = new TaskDataSource(AddTask.this);
+                taskDataSource.open();
+                taskDataSource.updateTask(task);
+                taskDataSource.close();
+            }
+        });
         finish();
     }
 

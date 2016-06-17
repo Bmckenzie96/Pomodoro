@@ -6,9 +6,40 @@ package Model;
 public class Task {
     String mTitle;
     String mContent;
-    public Task(String title, String content) {
+    long rowId;
+    private String OwnersId;
+    private int isDirty = 0;
+
+    public int getIsDirty() {
+        return isDirty;
+    }
+
+    public void setIsDirty(int isDirty) {
+        this.isDirty = isDirty;
+    }
+
+    public String getOwnersId() {
+        return OwnersId;
+    }
+
+    public void setOwnersId(String ownersId) {
+        OwnersId = ownersId;
+    }
+
+    public Task() {}
+
+    public long getRowId() {
+        return rowId;
+    }
+
+    public void setRowId(long rowId) {
+        this.rowId = rowId;
+    }
+
+    public Task(String title, String content, String ownersId) {
         mTitle = title;
         mContent = content;
+        OwnersId = ownersId;
     }
 
     public String getTitle() {

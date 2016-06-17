@@ -18,42 +18,73 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.a1996.ben.pomodoro.R;
+import com.backendless.Backendless;
+import com.backendless.persistence.local.UserIdStorageFactory;
 
+import Model.TaskArray;
 import Utils.CountdownTimer;
+import Utils.TaskSQLHelper;
 
 public class Home extends AppCompatActivity implements TimerFragment.FragmentCreated {
 
     TimerFragment mTimerFragment;
-    Button mTaskList;
+    private static boolean firstRun = true;
+    public static boolean isRunning;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        TaskSQLHelper.BackendlessUserId = UserIdStorageFactory.instance().getStorage().get();
+        if (firstRun) {
+            TaskArray.initialPopulation(this);
+            firstRun = false;
+        }
+        Log.i("user_id", TaskSQLHelper.BackendlessUserId);
         mTimerFragment = new TimerFragment();
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.placeHolder, mTimerFragment);
         fragmentTransaction.commit();
-        mTaskList = (Button) findViewById(R.id.taskListButton);
-        mTaskList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(Home.this, Tasks.class);
-                startActivity(i);
-            }
-        });
     }
 
 
     @Override
     public void onFragmentCreated(View v) {
-        Toast.makeText(this, "made Invisible",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "made Invisible",Toast.LENGTH_SHORT).show();
         v.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void onStartTimer(View v) {
         v.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onTaskListClick() {
+        Intent i = new Intent(Home.this, Tasks.class);
+        startActivity(i);
+    }
+
+    @Override
+    public void handleLogout(String fault) {
+        Toast.makeText(Home.this, fault, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void goToSignIn() {
+        finish();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isRunning = true;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isRunning = false;
     }
 }

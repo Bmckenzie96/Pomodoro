@@ -5,7 +5,8 @@
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/recyclerTaskView">
+        android:id="@+id/recyclerTaskView"
+        android:layout_above="@+id/addTask">
 
     </android.support.v7.widget.RecyclerView>
 
@@ -18,5 +19,15 @@
         android:id="@+id/taskListEmpty"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add"
+        android:id="@+id/addTask"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:background="#00ffffff"/>
 
 </RelativeLayout>

@@ -31,7 +31,8 @@
             android:id="@+id/cancelEdit"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
+            android:layout_alignParentStart="true"
+            android:background="#00ffffff"/>
 
         <Button
             android:layout_width="wrap_content"
@@ -40,6 +41,7 @@
             android:id="@+id/doneEdit"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"/>
+            android:layout_alignParentEnd="true"
+            android:background="#00ffffff"/>
     </RelativeLayout>
 </LinearLayout>

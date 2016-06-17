@@ -18,6 +18,7 @@ import com.a1996.ben.pomodoro.R;
 
 import Model.Task;
 import Model.TaskArray;
+import Utils.TaskDataSource;
 
 public class Tasks extends AppCompatActivity implements TaskListFragment.TaskAdapterInterface, EditTaskFragment.EditTaskInterface{
 
@@ -29,14 +30,6 @@ public class Tasks extends AppCompatActivity implements TaskListFragment.TaskAda
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tasks);
-        Button addButton = (Button) findViewById(R.id.addButton);
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Tasks.this, AddTask.class);
-                startActivity(intent);
-            }
-        });
         mTaskListFragment = new TaskListFragment();
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -46,7 +39,6 @@ public class Tasks extends AppCompatActivity implements TaskListFragment.TaskAda
 
     @Override
     public void goToContent(int position) {
-        Toast.makeText(Tasks.this, "item " + position  + " clicked",Toast.LENGTH_SHORT).show();
         Bundle args = new Bundle();
         args.putString("TITLE", TaskArray.taskArrayList.get(position).getTitle());
         args.putString("CONTENT", TaskArray.taskArrayList.get(position).getContent());
@@ -60,7 +52,6 @@ public class Tasks extends AppCompatActivity implements TaskListFragment.TaskAda
 
     @Override
     public void longItemClick(int position) {
-        Toast.makeText(Tasks.this, "item " + position  + "long clicked",Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -77,7 +68,10 @@ public class Tasks extends AppCompatActivity implements TaskListFragment.TaskAda
 
     @Override
     public void delete(int position, TaskAdapter taskAdapter) {
-        Toast.makeText(Tasks.this, "item " + position  + "delete pushed",Toast.LENGTH_SHORT).show();
+        TaskDataSource taskDataSource = new TaskDataSource(this.getApplicationContext());
+        taskDataSource.open();
+        taskDataSource.deleteTask(TaskArray.taskArrayList.get(position));
+        taskDataSource.close();
         TaskArray.removeTask(position);
         taskAdapter.notifyDataSetChanged();
     }
@@ -93,14 +87,25 @@ public class Tasks extends AppCompatActivity implements TaskListFragment.TaskAda
     }
 
     @Override
+    public void addTask() {
+        Intent intent = new Intent(this, AddTask.class);
+        this.startActivity(intent);
+    }
+
+    @Override
     public void doneEdit(String title, String content, int index) {
         TaskArray.taskArrayList.get(index).setTitle(title);
         TaskArray.taskArrayList.get(index).setContent(content);
+        TaskArray.taskArrayList.get(index);
+        TaskDataSource taskDataSource = new TaskDataSource(Tasks.this.getApplicationContext());
+        taskDataSource.open();
+        taskDataSource.updateTask(TaskArray.taskArrayList.get(index));
+        taskDataSource.close();
         getFragmentManager().popBackStack();
     }
 
     @Override
     public void cancelEdit() {
-        finish();
+        getFragmentManager().popBackStack();
     }
 }
