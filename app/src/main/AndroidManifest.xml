@@ -12,12 +12,11 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme.NoActionBar">
         <activity
             android:name=".View.Home"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize">
         </activity>
         <activity
@@ -25,7 +24,6 @@
             android:label="@string/title_activity_tasks"
             android:parentActivityName=".View.Home"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -36,7 +34,6 @@
             android:label="@string/title_activity_add_task"
             android:parentActivityName=".View.Tasks"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -45,15 +42,15 @@
         <activity
             android:name=".View.SignInActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize">
+        </activity>
+        <activity android:name=".View.SplashScreen"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-        </activity>
-        <activity android:name=".View.SplashScreen">
         </activity>
     </application>
 

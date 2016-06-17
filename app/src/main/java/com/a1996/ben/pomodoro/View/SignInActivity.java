@@ -38,29 +38,11 @@ RegisterFragment.registerInterface{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
-        String appVersion = "v1";
-        Backendless.initApp( this, "2B14DE22-099E-0107-FF72-32ACB6AB4400", "FC429597-C101-BEB9-FF19-344F9FCB9200", appVersion );
-        AsyncCallback<Boolean> isValidLoginCallback = new AsyncCallback<Boolean>()
-        {
-            @Override
-            public void handleResponse( Boolean response )
-            {
-                System.out.println( "[ASYNC] Is login valid? - " + response );
-                if(response == true) {
-                    Intent intent = new Intent(SignInActivity.this, Home.class);
-                    startActivity(intent);
-                }
-            }
-
-            @Override
-            public void handleFault( BackendlessFault fault )
-            {
-                System.err.println( "Error - " + fault );
-            }
-
-        };
-
-        Backendless.UserService.isValidLogin( isValidLoginCallback );
+        Intent intent = getIntent();
+        if(intent.getBooleanExtra("GOTOHOME", false)) {
+            Intent i = new Intent(this, Home.class);
+            startActivity(i);
+        }
         SigninFragment signinFragment = new SigninFragment();
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
