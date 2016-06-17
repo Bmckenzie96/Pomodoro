@@ -25,6 +25,7 @@ public class TaskArray {
         Log.i("task_row_id", task.getRowId() + "");
     }
     public static void initialPopulation(Context context) {
+        taskArrayList.clear();
         context = context.getApplicationContext();
         TaskDataSource taskDataSource = new TaskDataSource(context);
         taskDataSource.open();
