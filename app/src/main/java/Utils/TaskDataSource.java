@@ -36,7 +36,6 @@ public class TaskDataSource {
         ContentValues contentValues = new ContentValues();
         contentValues.put(TaskSQLHelper.COLUMN_TITLE, task.getTitle());
         contentValues.put(TaskSQLHelper.COLUMN_CONTENT, task.getContent());
-        contentValues.put(TaskSQLHelper.COLUMN_USERID, task.getOwnersId());
         contentValues.put(TaskSQLHelper.COLUMN_DIRTY, task.getIsDirty());
         return mDatabase.insert(TaskSQLHelper.TABLE_NAME, null, contentValues);
     }
@@ -46,7 +45,7 @@ public class TaskDataSource {
         Cursor cursor = mDatabase.query(
                 TaskSQLHelper.TABLE_NAME,
                 new String[] {TaskSQLHelper.COLUMN_ID, TaskSQLHelper.COLUMN_TITLE, TaskSQLHelper.COLUMN_CONTENT,
-                        TaskSQLHelper.COLUMN_USERID, TaskSQLHelper.COLUMN_DIRTY},
+                        TaskSQLHelper.COLUMN_USERID, TaskSQLHelper.COLUMN_DIRTY, TaskSQLHelper.COLUMN_OBJECTID},
                 null, null, null, null, null
         );
         return cursor;
@@ -85,6 +84,8 @@ public class TaskDataSource {
         contentValues.put(TaskSQLHelper.COLUMN_TITLE, task.getTitle());
         contentValues.put(TaskSQLHelper.COLUMN_CONTENT, task.getContent());
         contentValues.put(TaskSQLHelper.COLUMN_DIRTY, task.getIsDirty());
+        contentValues.put(TaskSQLHelper.COLUMN_USERID, task.getOwnerId());
+        contentValues.put(TaskSQLHelper.COLUMN_OBJECTID, task.getObjectId());
         int rowsUpdated = mDatabase.update(
                 TaskSQLHelper.TABLE_NAME,
                 contentValues,

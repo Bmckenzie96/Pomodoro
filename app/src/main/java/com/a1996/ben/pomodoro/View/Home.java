@@ -21,7 +21,11 @@ import com.a1996.ben.pomodoro.R;
 import com.backendless.Backendless;
 import com.backendless.persistence.local.UserIdStorageFactory;
 
+import java.util.ArrayList;
+
+import Model.Task;
 import Model.TaskArray;
+import Utils.BackendlessHelper;
 import Utils.CountdownTimer;
 import Utils.TaskSQLHelper;
 
@@ -41,6 +45,15 @@ public class Home extends AppCompatActivity implements TimerFragment.FragmentCre
             firstRun = false;
         }
         Log.i("user_id", TaskSQLHelper.BackendlessUserId);
+
+
+
+        ArrayList<Task> insertTasksHere = new ArrayList<>();
+        BackendlessHelper backendlessHelper = new BackendlessHelper(this);
+        backendlessHelper.backendSelectAllUserTasks(TaskSQLHelper.BackendlessUserId, insertTasksHere);
+
+
+
         mTimerFragment = new TimerFragment();
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
